@@ -2,10 +2,10 @@
 
 How to run this?
 
-1)
+1) 
 - Clone repository
 
-2)
+2)Install Packages
 - open terminal, enter into project directory,
 - write "npm install" 
 
