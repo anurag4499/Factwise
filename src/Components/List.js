@@ -16,6 +16,8 @@ const calculateAge = (dob) => {
 
 const List = () => {
 
+  const today = new Date().toISOString().split('T')[0];
+
   const [users, setUsers] = useState([]);
   const [editId, setEditId] = useState(null);
   const [formData, setFormData] = useState({});
@@ -37,6 +39,8 @@ const List = () => {
 
   //Edit user
   const handleEdit = (user, index) => {
+   
+    
     setFormData(user);
     setFormData((prev) => ({
       ...prev,
@@ -70,25 +74,59 @@ const List = () => {
   };
 
 
+
+
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
 // Save Changes
-  const handleSave = () => {
-    const updatedUsers = users.map((user) => (user.id === editId ? formData : user));
+  const handleSave = (userFullName) => {
+var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
+    
+    const nameParts = formData.newname.split(' ');
+    if (nameParts.length > 1) {
+      setFirstName(nameParts[0]);  
+      setLastName(nameParts.slice(1).join(' ')); 
+      
+    } else {
+      setFirstName(nameParts[0]);
+      setLastName('');
+    }
+  
+    setFormData(() => ({
+     
+      first: firstName,
+      last: lastName  
+    }));
+    
+  
+  var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
+
     setUsers(updatedUsers);
-    setEditId(null);
     setFormData({});
-    axios.put(`http://localhost:3001/users${editId}`, formData)
+
+
+    setEditId(null);
+    axios.put(`http://localhost:3000/users/${userId}`, formData)
       .then(response => {
+               
       })
       .catch(error => {
       });
   };
 
+  const [userId, setuserId] = useState(null);
+  
+
 //delete User
   const handleDelete = () => {
-    const updatedUsers = users.map((user) => (user.id === editId ? formData : user));
-
-    axios.delete(`http://localhost:3001/users${editId}`, updatedUsers)
+    
+    const updatedUsers = users.filter((user) => user.id !== userId);
+    setUsers(updatedUsers);
+    axios.delete(`http://localhost:3001/users/${userId}`, updatedUsers)
       .then(response => {
+       
       })
       .catch(error => {
       });
@@ -109,7 +147,7 @@ const List = () => {
       newname.trim() !== '' &&
       description.trim() !== '' &&
       country.trim() !== '' &&
-      /^[0-9]+$/.test(age) &&
+      // /^[0-9]+$/.test(age) &&
       /^[a-zA-Z\s]+$/.test(country)
     );
   };
@@ -117,7 +155,10 @@ const List = () => {
 
 //Open and Close accordion
   const [openIndex, setOpenIndex] = useState(null);
-  const handleClick = (index) => {
+  const handleClick = (userid,index) => {
+    setuserId(userid)
+   
+    
     if (editId !== null) return;
     setOpenIndex(openIndex === index ? null : index);
   };
@@ -158,7 +199,7 @@ const List = () => {
               <>
                 <div className='inner-acc rounded-4 px-2 pb-2' >
                   <div className="accordion-header px-3 py-2  "
-                    onClick={() => handleClick(index)}
+                    onClick={() => handleClick(item.id,index)}
                   >
                     <div className='d-flex' >
                        <img src={item.picture} className="user-avatar me-3 " />
@@ -178,10 +219,11 @@ const List = () => {
                         <br /> 
                         <span className='fw-500 '>
 
-                        <div class="input-group mb-3 rounded-4 input-boder">
-                          <input name="age"
+                        <div class="input-group mb-3 rounded-4 input-boder" type="date">
+                          <input name="dob"
                             value={formData.age}
-                            onChange={handleInputChange} type="text"
+                            onChange={handleInputChange} type="date"
+                            max={today}
                              class="form-control  age-input  rounded-start-4" placeholder="age"
                               />
                           <span class="input-group-text age-style  rounded-end-4"   >Years</span>
@@ -192,13 +234,13 @@ const List = () => {
                       <div className=''><span className='light-gray fw-500 lh-2'>Gender</span>
                       <br />
                        <span className='fw-500 lh-1'>
-                        <select onChange={handleInputChange} class="form-control input-boder form-select rounded-4" id="floatingSelect" aria-label="Floating label select example">
+                        <select onChange={handleInputChange} name='gender' class="form-control input-boder form-select rounded-4" id="floatingSelect" aria-label="Floating label select example">
                           <option selected>{formData.gender}</option>
-                          <option value="1">Male</option>
-                          <option value="2">Female</option>
-                          <option value="3">Transgender</option>
-                          <option value="3">Rather not say</option>
-                          <option value="3">Other</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Transgender">Transgender</option>
+                          <option value="Rather not say">Rather not say</option>
+                          <option value="Other">Other</option>
                         </select>
 
                       </span>
@@ -230,7 +272,7 @@ const List = () => {
                     </div>
                     <div className="accordion-actions text-end">
                       <i onClick={() => handleCancel(index)} className="bi bi-x-circle me-3 fs-4 red curser"></i>
-                      <button onClick={handleSave} disabled={!isFormValid() || JSON.stringify(formData) === JSON.stringify(originalData)} className="bi bi-check-circle fs-4 green curser save"></button>
+                      <button onClick={() => handleSave(item.newname)} disabled={!isFormValid() || JSON.stringify(formData) === JSON.stringify(originalData)} className="bi bi-check-circle fs-4 green curser save"></button>
                     </div>
                   </div>
                 </div>
@@ -241,7 +283,7 @@ const List = () => {
                 <div className='inner-acc rounded-4 p-2  pb-2' >
                   <div
                     className="accordion-header px-3 py-2 "
-                    onClick={() => handleClick(index)}
+                    onClick={() => handleClick(item.id,index)}
                   >
                     <div className='pt-1'> 
                       <img src={item.picture} className="user-avatar me-4 " />
@@ -273,7 +315,7 @@ const List = () => {
 
 
                       <div className="accordion-actions text-end mt-2">
-                        <i data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi bi-trash3 me-3 fs-4 red curser"></i>
+                        <i  data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi bi-trash3 me-3 fs-4 red curser"></i>
                         <i onClick={() => handleEdit(item, index)} class="bi bi-pencil fs-4 blue curser"></i>
                       </div>
                     </div>
@@ -298,7 +340,7 @@ const List = () => {
             </div>
             <div class="modal-footer mt-3" >
               <button type="button" class="btn btn-light modal-button modal-cancel" data-bs-dismiss="modal">Close</button>
-              <button onClick={handleDelete} type="button" data-bs-dismiss="modal" class="btn btn-danger modal-button">Delete</button>
+              <button onClick={() => handleDelete()} type="button" data-bs-dismiss="modal" class="btn btn-danger modal-button">Delete</button>
             </div>
           </div>
         </div>
