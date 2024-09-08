@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 const calculateAge = (dob) => {
@@ -23,6 +23,8 @@ const List = () => {
   const [formData, setFormData] = useState({});
   const [originalData, setOriginalData] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
+  const [userId, setuserId] = useState(null);
+
 
 
   //Get all User
@@ -64,77 +66,41 @@ const List = () => {
   };
 
 
+
   //Taking input 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+
+    if (name === "newname") {
+      // console.log(value)
+      setFormData((prev) => ({
+        ...prev,
+        first: value.split(" ")[0],
+        last: value.split(" ")[1],
+        newname: value
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
-  const handleName = (e) => {
-
-    setFormData((prev) => ({
-      ...prev,
-      newName: e.target.value,
-    }));
-  };
-
-
-
-
-
-  const [userId, setuserId] = useState(null);
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
 
   // Save Changes
-  const handleSave = () => {
-    // e.preventDefault();
-    // var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
-
-    // const nameParts = formData.newname.split(' ');
-
-    // console.log(nameParts);
-
-    // if (nameParts.length > 1) {
-    //   setFirstName(nameParts[0]);
-    //   setLastName(nameParts.slice(1).join(' '));
-    //   console.log(firstName);
-
-    // } else {
-    //   setFirstName(nameParts[0]);
-    //   setLastName('');
-    // }
-
-  // console.log(formData.newname.split[0]);
-  
-    setFormData((prev) => ({
-      ...prev,
-      first: formData.newname[0],
-      last: formData.newname[1]
-    }));
-
-    console.log(formData);
-
-
-    // var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
-
-    // setUsers(updatedUsers);
-    
-    
-    // axios.put(`http://localhost:3001/users/${userId}`, formData)
-    // .then(response => {
-    //   // setFormData({});
-      
-    // })
-    // .catch(error => {
-    // });
-    // setEditId(null);
+  const handleSave = (userFullName) => {
+    var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
+    axios.put(`http://localhost:3001/users/${userId}`, formData)
+      .then(response => {
+        setUsers(updatedUsers);
+        setEditId(null);
+        setFormData({});
+      })
+      .catch(error => {
+      });
   };
 
-  
 
 
   //delete User
@@ -201,7 +167,7 @@ const List = () => {
     setUsers(filtered);
   };
 
-
+  
   return (
     <div>
       <div className="accordion">
@@ -237,12 +203,15 @@ const List = () => {
                         <br />
                         <span className='fw-500 '>
 
-                          <div class="input-group mb-3 rounded-4 input-boder" type="date">
+                          <div class="input-group mb-3 rounded-4 input-boder " type="date">
+
+
+
                             <input name="dob"
                               value={formData.age}
                               onChange={handleInputChange} type="date"
                               max={today}
-                              class="form-control  age-input  rounded-start-4" placeholder="age"
+                              class="form-control  age-input  rounded-start-4" placeholder=""
                             />
                             <span class="input-group-text age-style  rounded-end-4"   >Years</span>
                           </div>
@@ -290,7 +259,7 @@ const List = () => {
                     </div>
                     <div className="accordion-actions text-end">
                       <i onClick={() => handleCancel(index)} className="bi bi-x-circle me-3 fs-4 red curser"></i>
-                      <button onClick={handleSave} disabled={!isFormValid() || JSON.stringify(formData) === JSON.stringify(originalData)} className="bi bi-check-circle fs-4 green curser save"></button>
+                      <button onClick={() => handleSave(item.newname)} disabled={!isFormValid() || JSON.stringify(formData) === JSON.stringify(originalData)} className="bi bi-check-circle fs-4 green curser save"></button>
                     </div>
                   </div>
                 </div>
@@ -307,7 +276,6 @@ const List = () => {
                       <img src={item.picture} className="user-avatar me-4 " />
                       <span className='fs-4 fw-500  ' >{item.first}</span>
                       <span className='ps-1 fs-4 fw-500 ' >{item.last}</span>
-
                     </div>
 
                     <span className="accordion-toggle fs-5">

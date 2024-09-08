@@ -158,4 +158,18 @@ div .form-control:focus{
   top:10px;
 }
 
+.age-input{
+     appearance: none;  /* Removes the default browser styling */
+    -webkit-appearance: none; /* For Safari and Chrome */
+    -moz-appearance: none; /* For Firefox */
+    border: none; /* Optionally remove the border */
+    background: none; /* Optionally remove the background */
+    padding: 0; /* Adjust padding if needed */
+    color: inherit; 
+}
+
+
+
+
+
 
