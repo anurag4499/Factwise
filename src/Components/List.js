@@ -25,7 +25,7 @@ const List = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
 
-//Get all User
+  //Get all User
   useEffect(() => {
     axios.get('http://localhost:3001/users')
       .then(response => {
@@ -39,8 +39,8 @@ const List = () => {
 
   //Edit user
   const handleEdit = (user, index) => {
-   
-    
+
+
     setFormData(user);
     setFormData((prev) => ({
       ...prev,
@@ -73,67 +73,85 @@ const List = () => {
     }));
   };
 
+  const handleName = (e) => {
 
-
-
-
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-
-// Save Changes
-  const handleSave = (userFullName) => {
-var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
-    
-    const nameParts = formData.newname.split(' ');
-    if (nameParts.length > 1) {
-      setFirstName(nameParts[0]);  
-      setLastName(nameParts.slice(1).join(' ')); 
-      
-    } else {
-      setFirstName(nameParts[0]);
-      setLastName('');
-    }
-  
-    setFormData(() => ({
-     
-      first: firstName,
-      last: lastName  
+    setFormData((prev) => ({
+      ...prev,
+      newName: e.target.value,
     }));
-    
-  
-  var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
-
-    setUsers(updatedUsers);
-    setFormData({});
-
-
-    setEditId(null);
-    axios.put(`http://localhost:3000/users/${userId}`, formData)
-      .then(response => {
-               
-      })
-      .catch(error => {
-      });
   };
 
+
+
+
+
   const [userId, setuserId] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+
+  // Save Changes
+  const handleSave = () => {
+    // e.preventDefault();
+    // var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
+
+    // const nameParts = formData.newname.split(' ');
+
+    // console.log(nameParts);
+
+    // if (nameParts.length > 1) {
+    //   setFirstName(nameParts[0]);
+    //   setLastName(nameParts.slice(1).join(' '));
+    //   console.log(firstName);
+
+    // } else {
+    //   setFirstName(nameParts[0]);
+    //   setLastName('');
+    // }
+
+  // console.log(formData.newname.split[0]);
+  
+    setFormData((prev) => ({
+      ...prev,
+      first: formData.newname[0],
+      last: formData.newname[1]
+    }));
+
+    console.log(formData);
+
+
+    // var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
+
+    // setUsers(updatedUsers);
+    
+    
+    // axios.put(`http://localhost:3001/users/${userId}`, formData)
+    // .then(response => {
+    //   // setFormData({});
+      
+    // })
+    // .catch(error => {
+    // });
+    // setEditId(null);
+  };
+
   
 
-//delete User
+
+  //delete User
   const handleDelete = () => {
-    
+
     const updatedUsers = users.filter((user) => user.id !== userId);
     setUsers(updatedUsers);
     axios.delete(`http://localhost:3001/users/${userId}`, updatedUsers)
       .then(response => {
-       
+
       })
       .catch(error => {
       });
     handleClick(editId);
   }
 
-// Cencel Edit
+  // Cencel Edit
   const handleCancel = (ab) => {
     setEditId(null);
     handleClick(ab);
@@ -153,12 +171,12 @@ var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
   };
 
 
-//Open and Close accordion
+  //Open and Close accordion
   const [openIndex, setOpenIndex] = useState(null);
-  const handleClick = (userid,index) => {
+  const handleClick = (userid, index) => {
     setuserId(userid)
-   
-    
+
+
     if (editId !== null) return;
     setOpenIndex(openIndex === index ? null : index);
   };
@@ -199,10 +217,10 @@ var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
               <>
                 <div className='inner-acc rounded-4 px-2 pb-2' >
                   <div className="accordion-header px-3 py-2  "
-                    onClick={() => handleClick(item.id,index)}
+                    onClick={() => handleClick(item.id, index)}
                   >
                     <div className='d-flex' >
-                       <img src={item.picture} className="user-avatar me-3 " />
+                      <img src={item.picture} className="user-avatar me-3 " />
                       <input
                         type="text"
                         name="newname"
@@ -216,47 +234,47 @@ var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
                     <div className='d-flex justify-content-between gap-4 ' >
                       <div className='' >
                         <span className='light-gray fw-500 mb-1' >Age</span>
-                        <br /> 
+                        <br />
                         <span className='fw-500 '>
 
-                        <div class="input-group mb-3 rounded-4 input-boder" type="date">
-                          <input name="dob"
-                            value={formData.age}
-                            onChange={handleInputChange} type="date"
-                            max={today}
-                             class="form-control  age-input  rounded-start-4" placeholder="age"
-                              />
-                          <span class="input-group-text age-style  rounded-end-4"   >Years</span>
-                        </div>
+                          <div class="input-group mb-3 rounded-4 input-boder" type="date">
+                            <input name="dob"
+                              value={formData.age}
+                              onChange={handleInputChange} type="date"
+                              max={today}
+                              class="form-control  age-input  rounded-start-4" placeholder="age"
+                            />
+                            <span class="input-group-text age-style  rounded-end-4"   >Years</span>
+                          </div>
                         </span>
                       </div>
 
                       <div className=''><span className='light-gray fw-500 lh-2'>Gender</span>
-                      <br />
-                       <span className='fw-500 lh-1'>
-                        <select onChange={handleInputChange} name='gender' class="form-control input-boder form-select rounded-4" id="floatingSelect" aria-label="Floating label select example">
-                          <option selected>{formData.gender}</option>
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
-                          <option value="Transgender">Transgender</option>
-                          <option value="Rather not say">Rather not say</option>
-                          <option value="Other">Other</option>
-                        </select>
+                        <br />
+                        <span className='fw-500 lh-1'>
+                          <select onChange={handleInputChange} name='gender' class="form-control input-boder form-select rounded-4" id="floatingSelect" aria-label="Floating label select example">
+                            <option selected>{formData.gender}</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Transgender">Transgender</option>
+                            <option value="Rather not say">Rather not say</option>
+                            <option value="Other">Other</option>
+                          </select>
 
-                      </span>
+                        </span>
                       </div>
                       <div className=''>
                         <span className='light-gray fw-500 lh-1'>Country</span>
-                        <br /> 
-                        <span className='fw-500 lh-1'> 
-                      <input
-                        type="text"
-                        name="country"
-                        value={formData.country}
-                        onChange={handleInputChange}
-                        class="form-control rounded-4 input-boder"
-                      />
-                      </span>
+                        <br />
+                        <span className='fw-500 lh-1'>
+                          <input
+                            type="text"
+                            name="country"
+                            value={formData.country}
+                            onChange={handleInputChange}
+                            class="form-control rounded-4 input-boder"
+                          />
+                        </span>
                       </div>
                     </div>
 
@@ -272,7 +290,7 @@ var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
                     </div>
                     <div className="accordion-actions text-end">
                       <i onClick={() => handleCancel(index)} className="bi bi-x-circle me-3 fs-4 red curser"></i>
-                      <button onClick={() => handleSave(item.newname)} disabled={!isFormValid() || JSON.stringify(formData) === JSON.stringify(originalData)} className="bi bi-check-circle fs-4 green curser save"></button>
+                      <button onClick={handleSave} disabled={!isFormValid() || JSON.stringify(formData) === JSON.stringify(originalData)} className="bi bi-check-circle fs-4 green curser save"></button>
                     </div>
                   </div>
                 </div>
@@ -283,9 +301,9 @@ var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
                 <div className='inner-acc rounded-4 p-2  pb-2' >
                   <div
                     className="accordion-header px-3 py-2 "
-                    onClick={() => handleClick(item.id,index)}
+                    onClick={() => handleClick(item.id, index)}
                   >
-                    <div className='pt-1'> 
+                    <div className='pt-1'>
                       <img src={item.picture} className="user-avatar me-4 " />
                       <span className='fs-4 fw-500  ' >{item.first}</span>
                       <span className='ps-1 fs-4 fw-500 ' >{item.last}</span>
@@ -315,7 +333,7 @@ var updatedUsers = users.map((user) => (user.id === editId ? formData : user));
 
 
                       <div className="accordion-actions text-end mt-2">
-                        <i  data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi bi-trash3 me-3 fs-4 red curser"></i>
+                        <i data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi bi-trash3 me-3 fs-4 red curser"></i>
                         <i onClick={() => handleEdit(item, index)} class="bi bi-pencil fs-4 blue curser"></i>
                       </div>
                     </div>

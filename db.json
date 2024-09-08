@@ -1,26 +1,17 @@
 {
   "users": [
     {
-      "id": "11",
-      "first": "Ümit",
-      "last": "Taşlı",
-      "dob": "2004-10-17",
-      "gender": "male",
-      "email": "umit.tasli@example.com",
-      "picture": "https://randomuser.me/api/portraits/med/men/80.jpg",
-      "country": "Turkey",
-      "description": "This character description generator will generate a fairly random description of a belonging to Ümit Taşlı. However, some aspects of the descriptions will remain the same, this is done to keep the general structure the same, while still randomizing the important details of Ümit Taşlı."
-    },
-    {
       "id": "13",
-      "first": "Dorian",
+      "first": "koko",
       "last": "Carpentier",
       "dob": "1963-10-06",
       "gender": "male",
       "email": "dorian.carpentier@example.com",
       "picture": "https://randomuser.me/api/portraits/med/men/77.jpg",
       "country": "France",
-      "description": "This character description generator will generate a fairly random description of a belonging to Dorian Carpentier. However, some aspects of the descriptions will remain the same, this is done to keep the general structure the same, while still randomizing the important details of Dorian Carpentier."
+      "description": "This character description generator will generate a fairly random description of a belonging to Dorian Carpentier. However, some aspects of the descriptions will remain the same, this is done to keep the general structure the same, while still randomizing the important details of Dorian Carpentier.",
+      "newname": "lolo Carpentier",
+      "age": 60
     },
     {
       "id": "14",
@@ -35,36 +26,42 @@
     },
     {
       "id": "16",
-      "first": "Florence",
+      "first": "Flo",
       "last": "Cooper",
       "dob": "1989-08-31",
       "gender": "female",
       "email": "florence.cooper@example.com",
       "picture": "https://randomuser.me/api/portraits/med/women/19.jpg",
       "country": "Ireland",
-      "description": "This character description generator will generate a fairly random description of a belonging to Florence Cooper. However, some aspects of the descriptions will remain the same, this is done to keep the general structure the same, while still randomizing the important details of Florence Cooper."
+      "description": "This character description generator will generate a fairly random description of a belonging to Florence Cooper. However, some aspects of the descriptions will remain the same, this is done to keep the general structure the same, while still randomizing the important details of Florence Cooper.",
+      "newname": "Flo Cooper",
+      "age": 35
     },
     {
       "id": "17",
-      "first": "Donald",
-      "last": "Harrison",
+      "first": "Do",
+      "last": "Harris",
       "dob": "1947-12-20",
       "gender": "male",
       "email": "donald.harrison@example.com",
       "picture": "https://randomuser.me/api/portraits/med/men/34.jpg",
       "country": "United Kingdom",
-      "description": "This character description generator will generate a fairly random description of a belonging to Donald Harrison. However, some aspects of the descriptions will remain the same, this is done to keep the general structure the same, while still randomizing the important details of Donald Harrison."
+      "description": "This character description generator will generate a fairly random description of a belonging to Donald Harrison. However, some aspects of the descriptions will remain the same, this is done to keep the general structure the same, while still randomizing the important details of Donald Harrison.",
+      "newname": "Do Harris",
+      "age": 76
     },
     {
       "id": "18",
-      "first": "Michael",
+      "first": "Mich",
       "last": "Nichols",
       "dob": "1963-06-26",
       "gender": "male",
       "email": "michael.nichols@example.com",
       "picture": "https://randomuser.me/api/portraits/med/men/76.jpg",
       "country": "United Kingdom",
-      "description": "This character description generator will generate a fairly random description of a belonging to Michael Nichols. However, some aspects of the descriptions will remain the same, this is done to keep the general structure the same, while still randomizing the important details of Michael Nichols."
+      "description": "This character description generator will generate a fairly random description of a belonging to Michael Nichols. However, some aspects of the descriptions will remain the same, this is done to keep the general structure the same, while still randomizing the important details of Michael Nichols.",
+      "newname": "Mich Nichols",
+      "age": 61
     },
     {
       "id": "19",
